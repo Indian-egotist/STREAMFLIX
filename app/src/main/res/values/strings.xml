@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">StreamFlix</string>
+    <string name="netflix_logo">NETFLIX</string>
+    <string name="all">All</string>
+    <string name="tv_shows">TV Shows</string>
+    <string name="movies">Movies</string>
+    <string name="my_list">My List</string>
+    <string name="see_all">See all</string>
+    <string name="popular_on_netflix">Popular on Netflix</string>
+    <string name="trending_now">Trending Now</string>
+    <string name="action">Action</string>
+</resources>
