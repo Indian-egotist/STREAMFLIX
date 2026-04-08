@@ -16,18 +16,18 @@ import com.example.streamflix.model. Movie
 @Composable
 fun MovieCard(
     movie: Movie,
-    onClick: (Movie) -> Unit  // ← ADD THIS PARAMETER
+    onClick: (Movie) -> Unit
 ) {
     Card(
         modifier = Modifier
             . width(120.dp)
             .height(180.dp)
-            .clickable { onClick(movie) },  // ← ADD CLICK HANDLER
+            .clickable { onClick(movie) },
         shape = RoundedCornerShape(8.dp),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Image(
-            painter = rememberAsyncImagePainter(movie.imageUrl),
+            painter = rememberAsyncImagePainter(movie.thumbnailUrl),
             contentDescription = movie.title,
             modifier = Modifier.fillMaxSize(),
             contentScale = ContentScale.Crop

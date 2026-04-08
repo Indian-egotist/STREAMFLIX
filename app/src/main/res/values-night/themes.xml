@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Base application theme -->
+    <!-- Base application theme (Night) -->
     <style name="Base.Theme.StreamFlix" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/netflix_red</item>
         <item name="android:statusBarColor">@color/black</item>
@@ -9,7 +9,7 @@
 
     <style name="Theme.StreamFlix" parent="Base.Theme.StreamFlix" />
 
-    <!-- Splash Screen Theme -->
+    <!-- Splash Screen Theme (Night) -->
     <style name="Theme.StreamFlix.Splash" parent="Theme.SplashScreen">
         <item name="android:windowBackground">@color/splash_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/streamflix_thumbnail</item>
@@ -17,3 +17,4 @@
         <item name="postSplashScreenTheme">@style/Theme.StreamFlix</item>
     </style>
 </resources>
+

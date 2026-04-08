@@ -1,18 +1,23 @@
 package com.example.streamflix
 
 import android.app.Application
-//import android.util.log
-import com.google.firebase.FirebaseApp
+import android.util.Log
+import com.example.streamflix.supabase.SupabaseClient
 
 class StreamFlixApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        //log.d("StreamFlixApp", "StreamFlixApp.onCreate() CALLED") <-- use for filter Logcat by name StreamFlixApp
 
+        Log.d("StreamFlixApp", "Application started - Initializing Supabase")
 
-        // GUARANTEES Firebase is initialized before any UI or Auth call
-        FirebaseApp.initializeApp(this)
+        // Initialize Supabase client
+        // This ensures Supabase is ready before any Activity/Fragment uses it
+        try {
+            SupabaseClient.initialize(this)
+            Log.d("StreamFlixApp", "✅ Supabase initialized successfully")
+        } catch (e: Exception) {
+            Log.e("StreamFlixApp", "❌ Failed to initialize Supabase: ${e.message}", e)
+        }
     }
 }
-//[CONFIGURATION_NOT_FOUND] bug was because Firebase didn't fully initialize at run-time

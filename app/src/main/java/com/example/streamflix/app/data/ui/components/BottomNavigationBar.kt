@@ -1,12 +1,10 @@
 package com.example.streamflix.app.data.ui.components
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -16,15 +14,16 @@ import androidx.compose.ui.unit.sp
 val NetflixGray = Color(0xFF333333)
 
 @Composable
-fun BottomNavigationBar(modifier: Modifier = Modifier) {
-    var selectedItem by remember { mutableStateOf(0) }
-
+fun BottomNavigationBar(
+    selectedItem: Int = 0,
+    onItemSelected: (Int) -> Unit = {},
+    modifier: Modifier = Modifier
+) {
     val items = listOf(
         BottomNavItem("Home", Icons.Default.Home),
         BottomNavItem("Search", Icons.Default.Search),
         BottomNavItem("My List", Icons.Default.Favorite),
-        BottomNavItem("Downloads", Icons.Default.Download), // Uses the icon from extended library
-        BottomNavItem("More", Icons.Default.Menu)
+        BottomNavItem("Account", Icons.Default.AccountCircle)
     )
 
     NavigationBar(
@@ -48,13 +47,13 @@ fun BottomNavigationBar(modifier: Modifier = Modifier) {
                     )
                 },
                 selected = selectedItem == index,
-                onClick = { selectedItem = index },
+                onClick = { onItemSelected(index) },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = Color.White,
+                    selectedIconColor = Color(0xFFE50914),
                     selectedTextColor = Color.White,
                     unselectedIconColor = Color.Gray,
                     unselectedTextColor = Color.Gray,
-                    indicatorColor = Color.Transparent // Removes the default pill background
+                    indicatorColor = Color.Transparent
                 )
             )
         }

@@ -39,7 +39,7 @@ fun TopAppBar(onSignOut: () -> Unit = {}) {
         )
 
         Text(
-            text = stringResource(R.string.netflix_logo),
+            text = "Streamflix",
             color = NetflixRed,
             fontSize = 28.sp,
             fontWeight = FontWeight.Bold,

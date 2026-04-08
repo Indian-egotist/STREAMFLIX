@@ -1,7 +1,5 @@
 package com.example.streamflix.app.data.ui.screens
 
-import android.content.Intent
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -12,19 +10,14 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.streamflix.LoginActivity
-import com.example.streamflix.PlayerActivity
 import com.example.streamflix.R
 import com.example.streamflix.app.data.ui.components.*
 import com.example.streamflix.app.data.ui.theme.NetflixBlack
 import com.example.streamflix.model.Movie
-import com.example.streamflix.supabase.AuthHelper
 import com.example.streamflix.viewmodel.HomeViewModel
-import kotlinx.coroutines.launch
 
 @Composable
 fun MovieSection(
@@ -68,44 +61,18 @@ fun MovieSection(
 }
 
 @Composable
-fun HomeScreen() {
+fun HomeScreen(
+    modifier: Modifier = Modifier,
+    onMovieClick: (Movie) -> Unit = {}
+) {
     var selectedTab by remember { mutableIntStateOf(0) }
-    val context = LocalContext.current
-    val authHelper = remember { AuthHelper() }
-    val scope = rememberCoroutineScope()
 
     // ViewModel
     val viewModel: HomeViewModel = viewModel()
     val uiState by viewModel.uiState.collectAsState()
 
-    // Function to handle movie click
-    val onMovieClick: (Movie) -> Unit = { movie ->
-        val intent = Intent(context, PlayerActivity::class.java).apply {
-            putExtra("VIDEO_URL", movie.videoUrl)
-            putExtra("VIDEO_TITLE", movie.title)
-        }
-        context.startActivity(intent)
-    }
-
-    // Function to handle sign out
-    val onSignOut: () -> Unit = {
-        scope.launch {
-            authHelper.signOut(
-                onSuccess = {
-                    Toast.makeText(context, "Signed out successfully", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(context, LoginActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    context.startActivity(intent)
-                },
-                onError = { error ->
-                    Toast.makeText(context, "Sign out failed: $error", Toast.LENGTH_SHORT).show()
-                }
-            )
-        }
-    }
-
     Box(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize()
             .background(NetflixBlack)
     ) {
@@ -154,9 +121,9 @@ fun HomeScreen() {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    // Top App Bar
+                    // Top App Bar (without sign out - that's in Account screen now)
                     item {
-                        TopAppBar(onSignOut = onSignOut)
+                        TopAppBar()
                     }
 
                     // Tab Row
@@ -170,6 +137,13 @@ fun HomeScreen() {
                     // Featured Movie Banner
                     uiState.featuredMovie?.let { movie ->
                         item {
+                        val featuredPatched: Movie = movie.copy(
+                            videoUrl = "https://www.youtube.com/watch?v=aU4f_KJiUu4",
+                            thumbnailUrl = "https://img.youtube.com/vi/aU4f_KJiUu4/hqdefault.jpg",
+                            bannerUrl = "https://img.freepik.com/free-photo/lavender-field-sunset-near-valensole_268835-3910.jpg?semt=ais_incoming&w=740&q=80",
+                            title = if (movie.title.isBlank()) "Featured STREAMFLIX Video" else movie.title
+                        )
+
                             FeaturedMovieBanner(
                                 movie = movie,
                                 onClick = onMovieClick
@@ -218,11 +192,6 @@ fun HomeScreen() {
                         Spacer(modifier = Modifier.height(80.dp))
                     }
                 }
-
-                // Bottom Navigation Bar
-                BottomNavigationBar(
-                    modifier = Modifier.align(Alignment.BottomCenter)
-                )
             }
         }
     }

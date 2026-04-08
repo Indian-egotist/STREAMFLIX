@@ -79,16 +79,19 @@ class AuthHelper {
         onError: (String) -> Unit
     ) {
         try {
-            auth.resetPasswordForEmail(email)
-            Log.d("AuthHelper", "Password reset email sent")
+            // Use your Supabase project URL as redirectTo
+            auth.resetPasswordForEmail(
+                email = email,
+                redirectUrl = "https://pxgbfohiprahsbsjoyiz.supabase.co/auth/v1/verify"
+            )
+            Log.d("AuthHelper", "✅ Password reset email sent to: $email")
             onSuccess()
         } catch (e: Exception) {
-            Log.e("AuthHelper", "Password reset failed", e)
-            onError(e.message ?: "Password reset failed")
+            Log.e("AuthHelper", "❌ Password reset failed", e)
+            onError(e.message ?: "Failed to send reset email")
         }
     }
 
-    // ADD THIS FUNCTION
     suspend fun updatePassword(
         newPassword: String,
         onSuccess: () -> Unit,

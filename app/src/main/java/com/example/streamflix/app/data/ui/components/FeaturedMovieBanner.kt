@@ -30,7 +30,7 @@ fun FeaturedMovieBanner(
     ) {
         // Background Image
         Image(
-            painter = rememberAsyncImagePainter(movie. imageUrl),
+            painter = rememberAsyncImagePainter(model = movie.bannerUrl.ifEmpty { movie.thumbnailUrl } ),
             contentDescription = movie.title,
             modifier = Modifier. fillMaxSize(),
             contentScale = ContentScale.Crop
